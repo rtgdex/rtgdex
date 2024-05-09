@@ -1,0 +1,11 @@
+    # 调用chrome打印功能
+    driver.execute_script('window.print();')
+
+
+    # 调用系统方式自动打开这个pdf文件
+    pdf_file_name = '{}.pdf'.format(driver.title)
+    print(u'生成完毕，已为你自动打开 {}'.format(pdf_file_name))
+    open_pdf_file(pdf_file_name)
+
+    # 退出浏览器
+    driver.quit()
