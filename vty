@@ -1,0 +1,22 @@
+/** 
+   * see.BillingManager#authorize(BillingInfo, boolean[]) 
+   */ 
+  public BillingInfo authorize(BillingInfo inBillingInfo,  
+         boolean[] inNeedToAuthorizeBillingModel) 
+         throws BillingException 
+  { 
+    if (AUTHORIZE_RESPONSE == NULL) 
+      return null; 
+ 
+    if (AUTHORIZE_RESPONSE == EXCEPTION) 
+      throw new NullPointerException("Testing Null Pointer"); 
+ 
+    if (AUTHORIZE_RESPONSE == BILLING_EXCEPTION) 
+     throw new BillingException("Testing Billing Exception"); 
+ 
+    if (AUTHORIZE_RESPONSE == UNAUTHORIZED) 
+    { 
+      inBillingInfo.setOk(false); 
+      inBillingInfo.setReplyMessage("You are not authorized"); 
+      return inBillingInfo; 
+    } 
