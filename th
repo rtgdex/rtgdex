@@ -1,0 +1,72 @@
+
+
+        # 每60秒检测一次
+        time.sleep(60)
+
+
+
+
+
+if __name__ == "__main__":
+
+    # 若发现读取取配置文件出错，可以取消注释下面这行，一般在pycharm环境下才需要增加
+    # 设置当前文件所在的目录为当前工作路径
+    # chdir(sys.path[0])
+
+
+    # 启动微信机器人，自动根据操作系统执行不同的指令
+    # windows系统或macOS Sierra系统使用bot = Bot()
+    # linux系统或macOS Terminal系统使用bot = Bot(console_qr=2)
+    if('Windows' in system()):
+        # Windows
+        bot = Bot()
+    elif('Darwin' in system()):
+        # MacOSX
+        bot = Bot()
+    elif('Linux' in system()):
+        # Linux
+        bot = Bot(console_qr=2,cache_path=True)
+    else:
+        # 自行确定
+        print("无法识别你的操作系统类型，请自己设置")
+
+
+
+    # 读取配置文件
+    cf = configparser.ConfigParser()
+    cf.read("./config.ini",encoding='UTF-8')
+
+
+
+    # 设置女友的微信名称，记住，不是微信ID也不是微信备注
+    # 你女友的微信名称，记住，不是微信ID也不是微信备注
+    my_lady_wechat_name = cf.get("configuration", "my_lady_wechat_name")
+
+
+    # 设置早上起床时间，中午吃饭时间，下午吃饭时间，晚上睡觉时间
+    say_good_morning = cf.get("configuration", "say_good_morning")
+    say_good_lunch = cf.get("configuration", "say_good_lunch")
+    say_good_dinner = cf.get("configuration", "say_good_dinner")
+    say_good_dream = cf.get("configuration", "say_good_dream")
+
+
+    # 设置女友生日信息
+    # 几月，注意补全数字，为两位数，比如6月必须写成06
+    birthday_month = cf.get("configuration", "birthday_month")
+    # 几号，注意补全数字，为两位数，比如6号必须写成08
+    birthday_day = cf.get("configuration", "birthday_day")
+
+
+    # 读取早上起床时间，中午吃饭时间，下午吃饭时间，晚上睡觉时间的随机提示语
+    # 一般这里的代码不要改动，需要增加提示语可以自己打开对应的文件修改
+    #早上起床问候语列表，数据来源于新浪微博
+    str_list_good_morning = ''
+    with open("./remind_sentence/sentence_good_morning.txt", "r",encoding='UTF-8') as f:
+        str_list_good_morning = f.readlines()
+    print(str_list_good_morning)
+
+    #中午吃饭问候语列表，数据来源于新浪微博
+    str_list_good_lunch = ''
+    with open("./remind_sentence/sentence_good_lunch.txt", "r",encoding='UTF-8') as f:
+        str_list_good_lunch = f.readlines()
+    print(str_list_good_lunch)
