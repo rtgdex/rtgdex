@@ -1,0 +1,41 @@
+
+    for key, value in detail_information.items():
+        if key == 'qq_level':
+            star_count, moon_count, sun_count, crown_count = calculate_level(value)
+            data = crown_count * '![](data/level_crown.png)' + sun_count * '![](data/level_sun.png)' + moon_count * '![](data/level_moon.png)' + star_count * '![](data/level_star.png)'
+            content += '{}|{}\n'.format(key_dict[key], data)
+        else:
+            content += '{}|{}\n'.format(key_dict[key], value)
+    # 更新一下欲输出的markdown文本
+    markdown_content += content
+    markdown_content += '\n> 注：单向好友表示他/她的列表中有你，而你的列表中没有他/她'
+    # 每个步骤完成后，保存markdown文件，以便防止程序出错时能够保存到最新的数据
+    with open('{}的个人QQ历史报告.md'.format(bot.qq_number), 'w', encoding='utf-8') as file:
+        file.write(markdown_content)
+
+
+
+    # 获取所有好友列表接口已失效
+    '''
+    # 获取所有qq好友的备注名和qq号
+    custom_print(u'正在获取该账户的好友数据...')
+    all_qq_friends = bot.get_all_friends_in_qq() # 获取所有好友列表接口已失效
+    qq_number_list = []
+    for key, friend_group in all_qq_friends.items():
+        for info in friend_group['mems']:
+            qq_number_list.append(info['uin'])
+    '''
+
+
+
+    # 获取所有群信息
+    custom_print(u'正在获取该账户的所有群信息...')
+    group_list = bot.get_group()
+    # content为markdown语法文本
+    content = '\n\n<br/><br/>\n' + '## 我加入的群资料\n' + '序号|群名|群号|群主QQ\n:- | :-| :-| :-\n'
+    # 获取某个群的群成员信息
+    for index, group in enumerate(group_list):
+        group_number = group['gc']
+        group_name = group['gn']
+        owner = group['owner']
+        content += '{}|{}|{}|{}\n'.format(str(index+1), str(group_name), str(group_number), str(owner))
