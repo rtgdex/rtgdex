@@ -1,0 +1,61 @@
+import requests
+import csv
+import pandas as pd
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+plt.rcParams['font.sans-serif'] = ['SimHei'] #解决中文显示
+plt.rcParams['axes.unicode_minus'] = False   #解决符号无法显示
+
+def main():
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',}
+    data = {
+        'r': '0.9936776079863086',
+        'top': '50',
+        'type': '0',
+    }
+    resp = requests.post('https://ys.endata.cn/enlib-api/api/home/getrank_mainland.do', headers=headers, data=data)
+    data_list = resp.json()['data']['table0']
+    for item in data_list:
+        rank = item['Irank']  # 排名
+        MovieName = item['MovieName']  # 电影名称
+        ReleaseTime = item['ReleaseTime']  # 上映时间
+        TotalPrice = item['BoxOffice']   # 总票房(万)
+        AvgPrice = item['AvgBoxOffice']   # 平均票价
+        AvgAudienceCount = item['AvgAudienceCount']  # 平均场次
+        # 写入csv文件
+        csvwriter.writerow((rank,MovieName,ReleaseTime,TotalPrice,AvgPrice,AvgAudienceCount))
+        print(rank,MovieName,ReleaseTime,TotalPrice,AvgPrice,AvgAudienceCount)
+
+def data_analyze():
+    # 读取数据
+    data = pd.read_csv('07.csv')
+    # 从上映时间中提取出年份
+    data['年份'] = data['上映时间'].apply(lambda x: x.split('-')[0])
+    # 各年度上榜电影总票房占比
+    df1 = data.groupby('年份')['总票房(万)'].sum()
+    plt.figure(figsize=(6, 6))
+    plt.pie(df1, labels=df1.index.to_list(), autopct='%1.2f%%')
+    plt.title('各年度上榜电影总票房占比')
+    plt.show()
+    # 各个年份总票房趋势
+    df1 = data.groupby('年份')['总票房(万)'].sum()
+    plt.figure(figsize=(6, 6))
+    plt.plot(df1.index.to_list(), df1.values.tolist())
+    plt.title('各年度上榜电影总票房趋势')
+    plt.show()
+    # 平均票价最贵的前十名电影
+    print(data.sort_values(by='平均票价', ascending=False)[['年份', '电影名称', '平均票价']].head(10))
+    # 平均场次最高的前十名电影
+    print(data.sort_values(by='平均场次', ascending=False)[['年份', '电影名称', '平均场次']].head(10))
+
+
+if __name__ == '__main__':
+    # 创建保存数据的csv文件
+    with open('07.csv', 'w', encoding='utf-8',newline='') as f:
+        csvwriter = csv.writer(f)
+        # 添加文件表头
+        csvwriter.writerow(('排名', '电影名称', '上映时间', '总票房(万)', '平均票价', '平均场次'))
+        main()
+    # 数据分析
+    data_analyze()
