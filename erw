@@ -1,0 +1,10 @@
+root.title('❤')
+root.resizable(0, 0)
+root.wm_attributes("-toolwindow", 1)
+screenwidth = root.winfo_screenwidth()
+screenheight = root.winfo_screenheight()
+widths = 300
+heights = 100
+x = (screenwidth - widths) / 2
+y = (screenheight - heights) / 2
+root.geometry('%dx%d+%d+%d' % (widths, heights, x, y))
