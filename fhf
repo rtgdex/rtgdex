@@ -1,0 +1,9 @@
+private boolean hasData(Connection conn, String tableName) throws SQLException {
+    try (Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM " + tableName)) {
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+        return false;
+    }
+}
