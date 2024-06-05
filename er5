@@ -1,0 +1,33 @@
+CREATE TABLE `yonghu` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `addtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `yonghuming` varchar(200) NOT NULL COMMENT '用户名',
+  `mima` varchar(200) NOT NULL COMMENT '密码',
+  `xingming` varchar(200) DEFAULT NULL COMMENT '姓名',
+  `xingbie` varchar(200) DEFAULT NULL COMMENT '性别',
+  `touxiang` varchar(200) DEFAULT NULL COMMENT '头像',
+  `shouji` varchar(200) DEFAULT NULL COMMENT '手机',
+  `shenfenzheng` varchar(200) DEFAULT NULL COMMENT '身份证',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `yonghuming` (`yonghuming`)
+) ENGINE=InnoDB AUTO_INCREMENT=1616222324596 DEFAULT CHARSET=utf8mb3 COMMENT='用户';
+CREATE TABLE `messages` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `addtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `userid` bigint NOT NULL COMMENT '留言人id',
+  `username` varchar(200) DEFAULT NULL COMMENT '用户名',
+  `content` longtext NOT NULL COMMENT '留言内容',
+  `reply` longtext COMMENT '回复内容',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1616222424131 DEFAULT CHARSET=utf8mb3 COMMENT='留言板';
+CREATE TABLE `token` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `userid` bigint NOT NULL COMMENT '用户id',
+  `username` varchar(100) NOT NULL COMMENT '用户名',
+  `tablename` varchar(100) DEFAULT NULL COMMENT '表名',
+  `role` varchar(100) DEFAULT NULL COMMENT '角色',
+  `token` varchar(200) NOT NULL COMMENT '密码',
+  `addtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '新增时间',
+  `expiratedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '过期时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COMMENT='token表';
