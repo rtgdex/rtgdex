@@ -1,0 +1,35 @@
+<!-- 背景图 -->
+<image class="bg" src="/images/images/bg_1.png"></image>
+<!-- 内容区域 -->
+<view class="content">
+<!-- 顶部的gif图片 -->
+<image class="content-gif" src="/images/images/save_the_date.gif"></image>
+
+<!-- 标题 -->
+<view class="content-titile">婚礼</view>
+<!-- 合照 -->
+<view class="content-avatar">
+<image src="/images/images/avatar.png"></image>
+</view>
+<!-- 名字 -->
+<view class="content-info">
+<view class="content-name"bindtap="callGroom">
+<image src="/images/images/tel.png"></image>
+<view>乔治</view>
+<view>新郎</view>
+</view>
+<view class="content-wedding">
+<image src="/images/images/wedding.png"></image>
+</view>
+<view class="content-name" bindtap="callBride">
+<image src="/images/images/tel.png"></image>
+<view>佩奇</view>
+<view>新娘</view>
+</view>
+</view>
+<view class="content-address"> 
+<view>我们诚挚的邀请您来参加我们的婚礼</view>
+<view>时间：2024年5月8日</view>
+<view>地点：湖南常德</view>
+</view>
+</view>
