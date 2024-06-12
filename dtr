@@ -1,0 +1,18 @@
+  //调用微信官方支付接口弹出付款界面,输入密码扣款
+  wx.requestPayment({
+     timeStamp,  //时间戳
+     nonceStr,   //随机字符串
+     package,    //prepay_id
+     signType,   //签名算法MD5
+     paySign,    //签名
+     success (res) {
+       if (res.errMsg == "requestPayment:ok"){
+          console.log('支付成功', res)
+       }else{
+          console.log('支付失败')
+       }
+     },
+     fail (res) { 
+       console.log('支付失败', res)
+     }
+  })
