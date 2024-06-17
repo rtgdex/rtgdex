@@ -1,0 +1,53 @@
+ def show_movie_data(self, event):
+        '''
+        显示某个被选择的电影的详情信息
+        '''
+
+        # self.hidden_GUI_movie_detail()
+
+        self.B_0_imdb['state'] = NORMAL
+        self.label_movie_rating_imdb.config(text = 'IMDB评分')
+        self.clear_tree(self.treeview_play_online)
+        self.clear_tree(self.treeview_save_cloud_disk)
+        self.clear_tree(self.treeview_bt_download)
+
+        item = self.treeview.selection()
+        if item:
+            item_text = self.treeview.item(item, "values")
+            movieName = item_text[0] # 输出电影名
+            for movie in self.jsonData:
+                if(movie['title'] == movieName):
+                    img_url = movie['cover_url']
+                    movie_name = movie['title']
+                    file_name = save_img(img_url, movie_name, 'img') #下载网络图片
+                    self.show_movie_img(file_name)
+                    self.label_movie_name.config(text=movie['title'])
+                    if(isinstance(movie['actors'],list)):
+                        string_actors = "、".join(movie['actors'])
+                    else:
+                        string_actors = movie['actors']
+                    self.label_movie_actor.config(text=string_actors)
+                    if str(movie['rating'][0]) == "":
+                        self.label_movie_rating.config(
+                            text="暂无人评分")
+                    else:
+                        self.label_movie_rating.config(
+                            text=str(movie['rating'][0]) + '分 ' + str(movie['vote_count']) + '人评价')
+                    self.label_movie_time.config(text=movie['release_date'])
+                    self.label_movie_type.config(text=movie['types'])
+
+                    break
+
+        # self.show_GUI_movie_detail()
+
+    def show_movie_img(self, file_name):
+        '''
+        更新图片GUI
+        :param file_name: 图片路径
+        :return:
+        '''
+        img_open = Image.open(file_name) #读取本地图片
+        pil_image_resized = resize(160, 230, img_open) #等比例缩放本地图片
+        img = ImageTk.PhotoImage(pil_image_resized) #读入图片
+        self.label_img.config(image=img, width = pil_image_resized.size[0], height = pil_image_resized.size[1])
+        self.label_img.image = img
