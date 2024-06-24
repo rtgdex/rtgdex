@@ -1,0 +1,89 @@
+      let { im_romm_id } = gobang;
+
+      // 删除人员
+      await ImRoomMember.deleteMany({ gobang_id: gobang_id });
+
+      // 删除对局信息
+      await GobangItem.deleteMany({ gobang_id: gobang_id });
+
+      // 删除聊天室
+      await ImRoom.deleteOne({ _id: im_romm_id });
+
+      // 删除聊天记录
+      await ImRoomSys.deleteMany({ im_romm_id });
+      // 删除聊天成员信息
+      await ImRoomMember.deleteMany({ im_romm_id });
+
+      console.log(111)
+      sendMsgToRoom(room_id, null, ["del_gobang"], gobang_id);
+      return
+    }
+
+    if (specialType == 2) {
+      // 有关五子棋的消息
+      console.log(data);
+      if (
+        !room_id ||
+        !gobang_id ||
+        !gobang_member_id ||
+        !gobang_member_id ||
+        !step_number ||
+        !x ||
+        !y ||
+        !author_id
+      ) {
+        resMsg("下棋消息有字段缺失", 400, "err", socket);
+        return;
+      }
+
+      if (![1, 2].includes(+step_content)) {
+        resMsg("观众不能下棋", 400, "err", socket);
+        return;
+      }
+      let oldGb = await GobangItem.findOne({
+        gobang_id,
+        step_number,
+      });
+
+      if (oldGb) {
+        resMsg("您已经下过棋了", 400);
+        return;
+      }
+
+      try {
+        let newGb = await new GobangItem({
+          gobang_id,
+          gobang_member_id: author_id,
+          step_number,
+          created_time: getCurrentTimer(),
+          updated_time: getCurrentTimer(),
+          step_content,
+          x,
+          y,
+        }).save();
+
+        sendMsgToRoom(room_id, newGb, [], gobang_id);
+      } catch (err) {
+        console.log(err);
+        resMsg("保存步数失败", 400);
+        return;
+      }
+
+      return;
+    }
+    if (!content) {
+      resMsg("请输入内容", 400);
+      return;
+    }
+    // 判断用户是否存在
+    if (!author_id) {
+      resMsg("用户id不能为空", 400);
+      return;
+    }
+
+    let user = await AuthorInfo.findOne({ _id: author_id });
+    if (!user) {
+      resMsg("用户id不能为空", 400);
+      return;
+    }
+
