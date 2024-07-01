@@ -1,0 +1,46 @@
+    font.setPixelSize(18);
+    label[0]->setFont(font);
+    label[1]->setFont(font);
+ 
+    pal.setColor(QPalette::WindowText, Qt::white);
+    label[0]->setPalette(pal);
+    label[1]->setPalette(pal);
+ 
+    label[0]->setText("00:00");
+    label[1]->setText("/00:00");
+ 
+    durationSlider = new QSlider(Qt::Horizontal);
+    durationSlider->setMaximumHeight(15);
+    durationSlider->setObjectName("durationSlider");
+ 
+    volumeSlider = new QSlider(Qt::Horizontal);
+    volumeSlider->setRange(0, 100);
+    volumeSlider->setMaximumWidth(80);
+    volumeSlider->setObjectName("volumeSlider");
+    volumeSlider->setValue(50);
+ 
+    listWidget = new QListWidget();
+    listWidget->setObjectName("listWidget");
+    listWidget->setVerticalScrollBarPolicy(
+                Qt::ScrollBarAlwaysOff);
+    listWidget->setHorizontalScrollBarPolicy(
+                Qt::ScrollBarAlwaysOff);
+    //listWidget->setFocusPolicy(Qt::NoFocus);
+    videoWidget = new QVideoWidget();
+    videoWidget->setStyleSheet("border-image: none;"
+                               "background: transparent;"
+                               "border:none");
+ 
+    /* H0布局 */
+    vWidget[0]->setMinimumSize(300, 480);
+    vWidget[0]->setMaximumWidth(300);
+    videoWidget->setMinimumSize(500, 480);
+ 
+    hBoxLayout[0]->addWidget(videoWidget);
+    hBoxLayout[0]->addWidget(vWidget[0]);
+ 
+    hWidget[0]->setLayout(hBoxLayout[0]);
+    hBoxLayout[0]->setContentsMargins(0, 0, 0, 0);
+ 
+    setCentralWidget(hWidget[0]);
+ 
