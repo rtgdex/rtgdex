@@ -1,0 +1,13 @@
+public interface Animal {
+    void eat();
+}
+
+public class Dog implements Animal {
+    public void eat() {
+        System.out.println("The dog eats.");
+    }
+}
+
+Dog dog = new Dog();
+dog.eat();
+F
