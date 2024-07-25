@@ -1,0 +1,67 @@
+@Entry @Component struct ComponentTest {
+
+  private scroller: Scroller = new Scroller(); // 创建一个滚动控制器
+  private scrollDistance: number = 0;
+  private items: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  build() {
+
+    Column() {
+      Scroll(this.scroller) {                  // 绑定滚动控制器
+        Column() {
+          ForEach(this.items, (item) => {      // ForEach语法循环创建子组件
+            Text("index: " + item)
+              .fontSize(26)
+              .width('90%')
+              .height(120)
+              .borderRadius(10)
+              .backgroundColor(Color.White)
+              .margin({top: 10})
+          })
+        }
+        .width("100%")
+      }
+      .scrollable(ScrollDirection.Vertical)    // 设置竖直方向滚动
+      .scrollBarColor(Color.Green)             // 设置滚动条颜色
+      .scrollBarWidth(20)                      // 设置滚动条宽度
+      .scrollBar(BarState.On)                  // 设置滚动条永久显示
+      .width('100%')
+      .height(220)
+      .padding({top: 10, bottom: 10})
+      .backgroundColor(Color.Pink)
+
+      Flex({direction: FlexDirection.Row, wrap: FlexWrap.NoWrap, justifyContent: FlexAlign.SpaceBetween}) {
+        Button('scrollTo')
+          .onClick(() => {
+            this.scrollDistance = this.scrollDistance == 0 ? 280 : 0;
+            this.scroller.scrollTo({           // 调用scrollTo滚动到具体位置
+              xOffset: 180,                    // 竖直方向滚动，该值不起作用
+              yOffset: this.scrollDistance,    // 滚动距离
+              animation: {                     // 滚动动画
+                duration: 1500,
+                curve: Curve.Smooth
+              }
+            })
+          })
+        Button('scrollEdge')
+          .onClick(() => {
+            this.scroller.scrollEdge(Edge.End) // 滚动到底部
+          })
+
+        Button('scrollPage')
+          .onClick(() => {
+            this.scroller.scrollPage({         // 滚动到下一页
+              next: true,
+              direction: Axis.Vertical
+            })
+          })
+      }
+      .width('100%')
+      .margin({top: 10})
+    }
+    .alignItems(HorizontalAlign.Center)
+    .width('100%')
+    .height(('100%'))
+    .padding(20)
+  }
+}
